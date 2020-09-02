@@ -14,14 +14,13 @@ namespace BackendTask.API.Controllers
     [ApiController]
     public class AdviserController : ControllerBase
     {
-
         #region Dependency Injected Fields
 
         private readonly IAdviserService _adviserService;
 
         #endregion
 
-        #region Constructors
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdviserController"/> class.
@@ -59,7 +58,10 @@ namespace BackendTask.API.Controllers
             return Ok(response);
         }
 
-
+        /// <summary>
+        /// Populates the advisers.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/advisers/populate-db")]
         public async Task<IActionResult> PopulateAdvisers()
@@ -133,6 +135,10 @@ namespace BackendTask.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Gets the adviser total assets under management.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/adviser/total-assets-under-management/")]
         public IActionResult GetAdviserTotalAssetsUnderManagement()
@@ -175,7 +181,12 @@ namespace BackendTask.API.Controllers
         #endregion
 
         #region Delete
-        
+
+        /// <summary>
+        /// Removes the adviser.
+        /// </summary>
+        /// <param name="adviserId">The adviser identifier.</param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("api/adviser/{adviserId}")]
         public async Task<IActionResult> RemoveAdviser(
@@ -192,7 +203,7 @@ namespace BackendTask.API.Controllers
 
             return Ok(response);
         }
-        
+
         #endregion
     }
 }

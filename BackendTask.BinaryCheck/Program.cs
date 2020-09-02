@@ -13,7 +13,7 @@ namespace BackendTask.BinaryCheck
 
             while (true) // Loop indefinitely
             {
-                Console.WriteLine("Please enter a binary string (press C to stop)");
+                Console.WriteLine("Please enter a binary string (enter C to stop)");
 
                 var input = Console.ReadLine();
 
@@ -22,7 +22,7 @@ namespace BackendTask.BinaryCheck
                     break;
                 }
 
-                var result = new BinaryCheckService().Check(input);
+                var result = BinaryCheckService.Check(input);
 
                 Console.WriteLine(Message, result ? Good : Bad);
                 Console.WriteLine();

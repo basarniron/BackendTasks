@@ -31,8 +31,8 @@ namespace BackendTask.Business.Services
         /// <param name="uow">The uow.</param>
         /// <exception cref="ArgumentNullException">
         /// </exception>
-        public ClientService(IAdviserRepository adviserRepository, 
-                             IAdviserService adviserService, 
+        public ClientService(IAdviserRepository adviserRepository,
+                             IAdviserService adviserService,
                              IUnitOfWork uow) : base(adviserRepository, uow)
         {
             _adviserRepository = adviserRepository ?? throw new ArgumentNullException();
@@ -50,13 +50,10 @@ namespace BackendTask.Business.Services
         /// </returns>
         public async Task<ResponseMessage> CreateClient(Guid adviserId, ClientMessage newClient)
         {
-            var responseMassage = new ResponseMessage
-            {
-                IsSuccess = true
-            };
+            var responseMassage = InitilizeResponseMessage();
 
             var adviser = await _adviserRepository.GetById(adviserId);
-            if (adviser == null) 
+            if (adviser == null)
             {
                 return SetValidationMessage(responseMassage, "Adviser not found");
             }
@@ -76,7 +73,7 @@ namespace BackendTask.Business.Services
             if (!responseMassage.IsSuccess)
                 return responseMassage;
 
-            if (adviser.Clients == null || !adviser.Clients.Any()) 
+            if (adviser.Clients == null || !adviser.Clients.Any())
             {
                 adviser.Clients = new List<Client>();
             }
@@ -87,11 +84,7 @@ namespace BackendTask.Business.Services
             var result = await _uow.Commit();
             if (!result)
             {
-                responseMassage.IsSuccess = false;
-                responseMassage.ValidationMessages = new List<string>
-                {
-                    "Transaction failed!"
-                };
+                SetValidationMessage(responseMassage, ResponseMessageTransactionFailed);
             }
 
             return responseMassage;
@@ -114,12 +107,12 @@ namespace BackendTask.Business.Services
             }
 
             var client = adviser.Clients.FirstOrDefault(p => p.Id.Equals(clientId));
-            if (client == null) 
+            if (client == null)
             {
                 return null;
             }
 
-            return new ClientMessageExtended 
+            return new ClientMessageExtended
             {
                 ClientId = client.Id.ToString(),
                 Name = client.UserDetails.Name,
@@ -139,9 +132,9 @@ namespace BackendTask.Business.Services
         public async Task<List<ClientMessageExtended>> GetClients(Guid adviserId)
         {
             var result = await _adviserService.GetAdviser(adviserId);
-            if (result == null) 
+            if (result == null)
             {
-                return null; 
+                return null;
             }
 
             return result.Clients;
@@ -155,10 +148,7 @@ namespace BackendTask.Business.Services
         /// <returns></returns>
         public async Task<ResponseMessage> RemoveClient(Guid adviserId, Guid clientId)
         {
-            var responseMassage = new ResponseMessage
-            {
-                IsSuccess = true
-            };
+            var responseMassage = InitilizeResponseMessage();
 
             var adviser = await _adviserRepository.GetById(adviserId);
             if (adviser == null)
@@ -175,11 +165,7 @@ namespace BackendTask.Business.Services
 
                 if (!result)
                 {
-                    responseMassage.IsSuccess = false;
-                    responseMassage.ValidationMessages = new List<string>
-                {
-                    "Transaction failed!"
-                };
+                    SetValidationMessage(responseMassage, ResponseMessageTransactionFailed);
                 }
             }
 
@@ -197,10 +183,7 @@ namespace BackendTask.Business.Services
         /// <exception cref="NotImplementedException"></exception>
         public async Task<ResponseMessage> UpdateClient(Guid adviserId, ClientMessageExtended client)
         {
-            var responseMassage = new ResponseMessage
-            {
-                IsSuccess = true
-            };
+            var responseMassage = InitilizeResponseMessage();
 
             var adviser = await _adviserRepository.GetById(adviserId);
             if (adviser == null)
@@ -227,11 +210,7 @@ namespace BackendTask.Business.Services
             var result = await _uow.Commit();
             if (!result)
             {
-                responseMassage.IsSuccess = false;
-                responseMassage.ValidationMessages = new List<string>
-                {
-                    "Transaction failed!"
-                };
+                SetValidationMessage(responseMassage, ResponseMessageTransactionFailed);
             }
 
             return responseMassage;

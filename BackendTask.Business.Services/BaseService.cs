@@ -11,6 +11,14 @@ namespace BackendTask.Business.Services
     /// </summary>
     public class BaseService
     {
+        #region Constants
+
+        protected const string ResponseMessageTransactionFailed = "Transaction failed!";
+
+        protected const string ResponseMessageInvalidDob = "Invalid date of birth";
+
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientService"/> class.
         /// </summary>
@@ -32,7 +40,7 @@ namespace BackendTask.Business.Services
         {
             if (!DateTime.TryParse(dob, out DateTime dateOfBirth))
             {
-                responseMassage = SetValidationMessage(responseMassage, "Invalid date of birth");
+                responseMassage = SetValidationMessage(responseMassage, ResponseMessageInvalidDob);
                 return default;
             }
 
@@ -57,6 +65,18 @@ namespace BackendTask.Business.Services
             responseMassage.ValidationMessages.Add(message);
 
             return responseMassage;
+        }
+
+        /// <summary>
+        /// Initilizes the response message.
+        /// </summary>
+        /// <returns></returns>
+        protected ResponseMessage InitilizeResponseMessage()
+        {
+            return new ResponseMessage
+            {
+                IsSuccess = true
+            };
         }
     }
 }

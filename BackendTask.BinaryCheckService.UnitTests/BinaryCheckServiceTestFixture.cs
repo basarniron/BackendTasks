@@ -10,10 +10,19 @@ namespace BackendTask.BinaryCheckService.UnitTests
         {
         }
 
+        [TestCase("101011", false)]
         [TestCase("", false)]
         [TestCase(null, false)]
         [TestCase("1fd23", false)]
         [TestCase("0", false)]
+        [TestCase("1", false)]
+        [TestCase("00", false)]
+        [TestCase("11", false)]
+        [TestCase("10", true)]
+        [TestCase("01", true)]
+        [TestCase("101", false)]
+        [TestCase("010", false)]
+        [TestCase("10101", false)]
         [TestCase("101011", false)]
         [TestCase("101010", true)]
         [TestCase("11010", false)]
@@ -24,13 +33,11 @@ namespace BackendTask.BinaryCheckService.UnitTests
         public void Test1(string testData, bool expectedResult)
         {
             //Arrange
-            var binaryCheckService = new Business.Services.BinaryCheck.BinaryCheckService();
 
             //Act
-            var result = binaryCheckService.Check(testData);
+            var result = Business.Services.BinaryCheck.BinaryCheckService.Check(testData);
 
             //Assert
-
             Assert.AreEqual(result, expectedResult);
         }
     }

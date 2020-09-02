@@ -27,7 +27,12 @@ namespace BackendTask.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c => c.SwaggerDoc(name: "V1", new OpenApiInfo { Title = "Backend Task API", Version = "v1" }));
+            services.AddSwaggerGen(c => c.SwaggerDoc(name: "V1",
+                                                     new OpenApiInfo
+                                                     {
+                                                         Title = "Backend Task API",
+                                                         Version = "v1"
+                                                     }));
 
             MongoDbBsonSerializer.Configure();
 

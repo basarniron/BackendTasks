@@ -1,32 +1,23 @@
-﻿using BackendTasks.Entity.Models;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Conventions;
-using MongoDB.Bson.Serialization.Serializers;
+﻿using MongoDB.Bson.Serialization.Conventions;
 
 namespace BackendTasks.Entity.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class MongoDbBsonSerializer
     {
+        /// <summary>
+        /// Configures this instance.
+        /// </summary>
         public static void Configure()
         {
-            // Set Guid to CSharp style (with dash -)
-            //BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
-
-            // Conventions
-            var pack = new ConventionPack
+            var conventionPack = new ConventionPack
                 {
                     new IgnoreExtraElementsConvention(true),
                     new IgnoreIfDefaultConvention(true)
                 };
-            ConventionRegistry.Register("My Solution Conventions", pack, t => true);
-
-            //BsonClassMap.RegisterClassMap<Adviser>(map =>
-            //{
-            //    map.AutoMap();
-            //    map.SetIgnoreExtraElements(true);
-            //    map.MapProperty(x => x.Id).SetSerializer(new GuidSerializer(BsonType.String));
-            //});
+            ConventionRegistry.Register("Backend task convention pack", conventionPack, t => true);
         }
     }
 }

@@ -69,6 +69,9 @@ namespace BackendTasks.Entity.Services.Repositories
             return result;
         }
 
+        /// <summary>
+        /// Creates the index.
+        /// </summary>
         private void CreateIndex()
         {
             var indexOptions = new CreateIndexOptions();

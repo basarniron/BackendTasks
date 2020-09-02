@@ -16,6 +16,12 @@ namespace BackendTask.Business.Services
     /// <seealso cref="IAdviserService" />
     public class AdviserService : BaseService, IAdviserService
     {
+        #region Constants
+
+        private const string StatusActive = "Active";
+        private const string StatusInactive = "Inactive";
+
+        #endregion
 
         #region Dependency Injected Fields
 
@@ -44,10 +50,7 @@ namespace BackendTask.Business.Services
         /// <returns></returns>
         public async Task<ResponseMessage> CreateAdviser(AdviserMessage newAdviser)
         {
-            var responseMassage = new ResponseMessage
-            {
-                IsSuccess = true
-            };
+            var responseMassage = InitilizeResponseMessage();
 
             var adviser = new Adviser
             {
@@ -73,11 +76,7 @@ namespace BackendTask.Business.Services
             var result = await _uow.Commit();
             if (!result)
             {
-                responseMassage.IsSuccess = false;
-                responseMassage.ValidationMessages = new List<string>
-                {
-                    "Transaction failed!"
-                };
+                SetValidationMessage(responseMassage, ResponseMessageTransactionFailed);
             }
 
             return responseMassage;
@@ -90,11 +89,9 @@ namespace BackendTask.Business.Services
         /// <returns></returns>
         public async Task<ResponseMessage> PopulateAdvisers()
         {
-            var responseMassage = new ResponseMessage
-            {
-                IsSuccess = true
-            };
+            var responseMassage = InitilizeResponseMessage();
 
+            #region Prepopulate adviser data
             var adviser1 = new Adviser
             {
                 Id = Guid.NewGuid(),
@@ -107,7 +104,7 @@ namespace BackendTask.Business.Services
                     CompanyName = "Test 1 ltd",
                     NationInsuranceNumber = "AB12345C"
                 },
-                Clients = new List<Client> 
+                Clients = new List<Client>
                 {
                     new Client
                     {
@@ -134,8 +131,6 @@ namespace BackendTask.Business.Services
                 TotalFeesAndCharges = 450.98M,
                 IsActive = true
             };
-
-            _adviserRepository.Add(adviser1);
 
             var adviser2 = new Adviser
             {
@@ -177,8 +172,6 @@ namespace BackendTask.Business.Services
                 IsActive = true
             };
 
-            _adviserRepository.Add(adviser2);
-
             var adviser3 = new Adviser
             {
                 Id = Guid.NewGuid(),
@@ -208,8 +201,6 @@ namespace BackendTask.Business.Services
                 TotalFeesAndCharges = 245.23M,
                 IsActive = false
             };
-
-            _adviserRepository.Add(adviser3);
 
             var adviser4 = new Adviser
             {
@@ -241,8 +232,6 @@ namespace BackendTask.Business.Services
                 IsActive = false
             };
 
-            _adviserRepository.Add(adviser4);
-
             var adviser5 = new Adviser
             {
                 Id = Guid.NewGuid(),
@@ -259,18 +248,18 @@ namespace BackendTask.Business.Services
                 TotalFeesAndCharges = 45.23M,
                 IsActive = true
             };
+            #endregion
 
+            _adviserRepository.Add(adviser1);
+            _adviserRepository.Add(adviser2);
+            _adviserRepository.Add(adviser3);
+            _adviserRepository.Add(adviser4);
             _adviserRepository.Add(adviser5);
-
 
             var result = await _uow.Commit();
             if (!result)
             {
-                responseMassage.IsSuccess = false;
-                responseMassage.ValidationMessages = new List<string>
-                {
-                    "Transaction failed!"
-                };
+                SetValidationMessage(responseMassage, ResponseMessageTransactionFailed);
             }
 
             return responseMassage;
@@ -402,20 +391,13 @@ namespace BackendTask.Business.Services
         /// <returns>ResponseMessage</returns>
         public async Task<ResponseMessage> RemoveAdviser(Guid adviserId)
         {
-            var responseMassage = new ResponseMessage
-            {
-                IsSuccess = true
-            };
+            var responseMassage = InitilizeResponseMessage();
 
             _adviserRepository.Remove(adviserId);
             var result = await _uow.Commit();
             if (!result)
             {
-                responseMassage.IsSuccess = false;
-                responseMassage.ValidationMessages = new List<string>
-                {
-                    "Transaction failed!"
-                };
+                SetValidationMessage(responseMassage, ResponseMessageTransactionFailed);
             }
 
             return responseMassage;
@@ -428,10 +410,7 @@ namespace BackendTask.Business.Services
         /// <returns></returns>
         public async Task<ResponseMessage> UpdateAdviser(AdviserMessageExtended adviser)
         {
-            var responseMassage = new ResponseMessage
-            {
-                IsSuccess = true
-            };
+            var responseMassage = InitilizeResponseMessage();
 
             var adviserToUpdate = new Adviser
             {
@@ -457,11 +436,7 @@ namespace BackendTask.Business.Services
             var result = await _uow.Commit();
             if (!result)
             {
-                responseMassage.IsSuccess = false;
-                responseMassage.ValidationMessages = new List<string>
-                {
-                    "Transaction failed!"
-                };
+                SetValidationMessage(responseMassage, ResponseMessageTransactionFailed);
             }
 
             return responseMassage;
@@ -471,7 +446,7 @@ namespace BackendTask.Business.Services
 
         private static string SetStatus(bool isActive)
         {
-            return isActive ? "Active" : "Inactive";
+            return isActive ? StatusActive : StatusInactive;
         }
 
         #endregion

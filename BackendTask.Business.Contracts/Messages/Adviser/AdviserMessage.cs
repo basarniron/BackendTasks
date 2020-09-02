@@ -1,5 +1,4 @@
 ﻿using BackendTask.Business.Contracts.Messages;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace BackendTask.Business.Contracts

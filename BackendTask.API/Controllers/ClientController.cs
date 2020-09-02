@@ -20,8 +20,13 @@ namespace BackendTask.API.Controllers
 
         #endregion
 
-        #region Constructors
+        #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientController"/> class.
+        /// </summary>
+        /// <param name="clientService">The client service.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public ClientController(IClientService clientService)
         {
             _clientService = clientService ?? throw new ArgumentNullException();
@@ -29,7 +34,7 @@ namespace BackendTask.API.Controllers
 
         #endregion
 
-
+        #region Post
         /// <summary>
         /// Creates the client.
         /// </summary>
@@ -53,7 +58,9 @@ namespace BackendTask.API.Controllers
 
             return Ok(response);
         }
+        #endregion
 
+        #region Get
         /// <summary>
         /// Gets the client.
         /// </summary>
@@ -76,7 +83,12 @@ namespace BackendTask.API.Controllers
             return Ok(response);
         }
 
-        
+
+        /// <summary>
+        /// Gets the clients.
+        /// </summary>
+        /// <param name="adviserId">The adviser identifier.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/clients/{adviserId}")]
         public async Task<IActionResult> GetClients(
@@ -87,8 +99,15 @@ namespace BackendTask.API.Controllers
                 return Ok("No data available");
             return Ok(response);
         }
+        #endregion
 
-      
+        #region Put
+        /// <summary>
+        /// Updates the client.
+        /// </summary>
+        /// <param name="adviserId">The adviser identifier.</param>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
         [HttpPut]
         [Route("api/client/{adviserId}")]
         public async Task<IActionResult> UpdateClient(
@@ -107,6 +126,15 @@ namespace BackendTask.API.Controllers
             return Ok(response);
         }
 
+        #endregion
+
+        #region Delete
+        /// <summary>
+        /// Removes the client.
+        /// </summary>
+        /// <param name="adviserId">The adviser identifier.</param>
+        /// <param name="clientId">The client identifier.</param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("api/client/{adviserId}/{clientId}")]
         public async Task<IActionResult> RemoveClient(
@@ -124,5 +152,6 @@ namespace BackendTask.API.Controllers
 
             return Ok(response);
         }
+        #endregion
     }
 }
