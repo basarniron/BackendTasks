@@ -12,6 +12,8 @@ Solution contains;
     * NUnit3TestAdapter v3.15.1
  * patterns:
     * unity of work - repository pattern
+ * architecture:
+    * 3-tier architecture
  * database:
     * mongoDb v4.4.0
  
