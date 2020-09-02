@@ -62,6 +62,7 @@ namespace BackendTask.API
         private void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IAdviserService, AdviserService>();
+            services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IAdviserRepository, AdviserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IMongoContext, MongoContext>();

@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace BackendTask.API.Controllers
 {
+    /// <summary>
+    /// Adviser Controller
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/[controller]")]
     [ApiController]
     public class AdviserController : ControllerBase

@@ -15,27 +15,24 @@ namespace BackendTask.Business.Services
     /// Implementation of IAdviserService
     /// </summary>
     /// <seealso cref="IAdviserService" />
-    public class AdviserService : IAdviserService
+    public class AdviserService : BaseService, IAdviserService
     {
-
-        #region Constants
-
-        private const string DateFormat = "yyyy-MM-dd";
-
-        #endregion
 
         #region Dependency Injected Fields
 
         private readonly IAdviserRepository _adviserRepository;
-        private readonly IUnitOfWork _uow; 
+        private readonly IUnitOfWork _uow;
 
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AdviserService" /> class.
+        /// Initializes a new instance of the <see cref="AdviserService"/> class.
         /// </summary>
         /// <param name="adviserRepository">The adviser repository.</param>
-        public AdviserService(IAdviserRepository adviserRepository, IUnitOfWork uow)
+        /// <param name="uow">The uow.</param>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        public AdviserService(IAdviserRepository adviserRepository, IUnitOfWork uow) : base(adviserRepository, uow)
         {
             _adviserRepository = adviserRepository ?? throw new ArgumentNullException();
             _uow = uow ?? throw new ArgumentNullException();
@@ -104,7 +101,16 @@ namespace BackendTask.Business.Services
                 LastName = result.UserDetails.LastName,
                 CompanyName = result.UserDetails.CompanyName,
                 NationInsuranceNumber = result.UserDetails.NationInsuranceNumber,
-                Dob = result.UserDetails.Dob.ToString(DateFormat)
+                Dob = result.UserDetails.Dob.FormatDate(),
+                Clients = (from c in result.Clients
+                          select new ClientMessageExtended 
+                          {
+                              ClientId = c.Id.ToString(),
+                              Name = c.UserDetails.Name,
+                              MiddleName = c.UserDetails.MiddleName,
+                              LastName = c.UserDetails.LastName,
+                              Dob = c.UserDetails.Dob.FormatDate()
+                          }).ToList()
             };
         }
 
@@ -128,7 +134,16 @@ namespace BackendTask.Business.Services
                         LastName = r.UserDetails.LastName,
                         CompanyName = r.UserDetails.CompanyName,
                         NationInsuranceNumber = r.UserDetails.NationInsuranceNumber,
-                        Dob = r.UserDetails.Dob.ToString(DateFormat)
+                        Dob = r.UserDetails.Dob.FormatDate(),
+                        Clients = (from c in r.Clients
+                                   select new ClientMessageExtended
+                                   {
+                                       ClientId = c.Id.ToString(),
+                                       Name = c.UserDetails.Name,
+                                       MiddleName = c.UserDetails.MiddleName,
+                                       LastName = c.UserDetails.LastName,
+                                       Dob = c.UserDetails.Dob.FormatDate()
+                                   }).ToList()
                     }).ToList();
         }
 
@@ -200,34 +215,5 @@ namespace BackendTask.Business.Services
 
             return responseMassage;
         }
-
-        #region Private methods
-
-        private DateTime SetDob(string dob, ref ResponseMessage responseMassage)
-        {
-            if (!DateTime.TryParse(dob, out DateTime dateOfBirth))
-            {
-                responseMassage = SetValidationMessage(responseMassage, "Invalid date of birth");
-                return default;
-            }
-
-            return dateOfBirth;
-        }
-
-        private ResponseMessage SetValidationMessage(ResponseMessage responseMassage, string message)
-        {
-            if (responseMassage == null)
-                responseMassage = new ResponseMessage();
-
-            responseMassage.IsSuccess = false;
-            if (responseMassage.ValidationMessages == null)
-                responseMassage.ValidationMessages = new System.Collections.Generic.List<string>();
-
-            responseMassage.ValidationMessages.Add(message);
-
-            return responseMassage;
-        }
-
-        #endregion
     }
 }

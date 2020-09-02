@@ -33,7 +33,6 @@ namespace BackendTasks.Entity.Models
         /// <value>
         /// The contact details.
         /// </value>
-        [BsonRequired]
         public ContactDetails ContactDetails { get; set; }
 
         /// <summary>
@@ -42,7 +41,6 @@ namespace BackendTasks.Entity.Models
         /// <value>
         /// The accounts.
         /// </value>
-        [BsonRequired]
         public List<Account> Accounts { get; set; }
     }
 }
