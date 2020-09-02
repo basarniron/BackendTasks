@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BackendTask.Business.Contracts\BackendTask.Business.Contracts.csproj" />
+    <ProjectReference Include="..\BackendTasks.Entity.Contracts\BackendTasks.Entity.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
