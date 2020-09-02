@@ -11,7 +11,6 @@ namespace BackendTask.API.Controllers
     /// Adviser Controller
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
-    [Route("api/[controller]")]
     [ApiController]
     public class AdviserController : ControllerBase
     {
@@ -36,6 +35,8 @@ namespace BackendTask.API.Controllers
 
         #endregion
 
+        #region Post
+
         /// <summary>
         /// Creates the adviser.
         /// </summary>
@@ -48,8 +49,8 @@ namespace BackendTask.API.Controllers
         {
             var response = await _adviserService.CreateAdviser(request);
 
-            if ( response == null   || 
-                !response.IsSuccess || 
+            if (response == null ||
+                !response.IsSuccess ||
                 (response.ValidationMessages != null && response.ValidationMessages.Any()))
             {
                 return BadRequest(response);
@@ -57,6 +58,27 @@ namespace BackendTask.API.Controllers
 
             return Ok(response);
         }
+
+
+        [HttpPost]
+        [Route("api/advisers/populate-db")]
+        public async Task<IActionResult> PopulateAdvisers()
+        {
+            var response = await _adviserService.PopulateAdvisers();
+
+            if (response == null ||
+                !response.IsSuccess ||
+                (response.ValidationMessages != null && response.ValidationMessages.Any()))
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
+        #endregion
+
+        #region Get
 
         /// <summary>
         /// Gets the adviser.
@@ -93,6 +115,43 @@ namespace BackendTask.API.Controllers
         }
 
         /// <summary>
+        /// Gets the adviser total fees and charges.
+        /// </summary>
+        /// <param name="isActive">if set to <c>true</c> [is active].</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/adviser/total-fees-and-charges/")]
+        public IActionResult GetAdviserTotalFeesAndCharges()
+        {
+            var response = _adviserService.GetAdviserTotalFeesAndCharges();
+
+            if (response == null)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("api/adviser/total-assets-under-management/")]
+        public IActionResult GetAdviserTotalAssetsUnderManagement()
+        {
+            var response = _adviserService.GetAdviserTotalAssetsUnderManagement();
+
+            if (response == null)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
+        #endregion
+
+        #region Put
+
+        /// <summary>
         /// Gets the adviser.
         /// </summary>
         /// <param name="adviserId">The adviser identifier.</param>
@@ -113,6 +172,10 @@ namespace BackendTask.API.Controllers
             return Ok(response);
         }
 
+        #endregion
+
+        #region Delete
+        
         [HttpDelete]
         [Route("api/adviser/{adviserId}")]
         public async Task<IActionResult> RemoveAdviser(
@@ -120,7 +183,7 @@ namespace BackendTask.API.Controllers
         {
             var response = await _adviserService.RemoveAdviser(new Guid(adviserId));
 
-            if(response == null ||
+            if (response == null ||
                 !response.IsSuccess ||
                 (response.ValidationMessages != null && response.ValidationMessages.Any()))
             {
@@ -129,5 +192,7 @@ namespace BackendTask.API.Controllers
 
             return Ok(response);
         }
+        
+        #endregion
     }
 }

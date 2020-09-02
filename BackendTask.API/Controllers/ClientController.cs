@@ -11,7 +11,6 @@ namespace BackendTask.API.Controllers
     /// Client Controller
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
-    [Route("api/[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
     {

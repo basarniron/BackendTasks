@@ -26,21 +26,5 @@ namespace BackendTasks.Entity.Models
         /// </value>
         [BsonRequired]
         public UserDetails UserDetails { get; set; }
-
-        /// <summary>
-        /// Gets or sets the contact details.
-        /// </summary>
-        /// <value>
-        /// The contact details.
-        /// </value>
-        public ContactDetails ContactDetails { get; set; }
-
-        /// <summary>
-        /// Gets or sets the accounts.
-        /// </summary>
-        /// <value>
-        /// The accounts.
-        /// </value>
-        public List<Account> Accounts { get; set; }
     }
 }

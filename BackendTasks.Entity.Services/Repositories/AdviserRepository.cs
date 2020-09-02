@@ -2,6 +2,9 @@
 using BackendTasks.Entity.Contracts.Repositories;
 using BackendTasks.Entity.Models;
 using BackendTasks.Entity.Services.Repository;
+using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BackendTasks.Entity.Services.Repositories
 {
@@ -18,6 +21,60 @@ namespace BackendTasks.Entity.Services.Repositories
         /// <param name="context">The context.</param>
         public AdviserRepository(IMongoContext context) : base(context)
         {
+            ConfigDbSet();
+            CreateIndex();
+        }
+
+        /// <summary>
+        /// Advisers the total amounts group by status.
+        /// </summary>
+        /// <param name="isAssetsUnderManagement">if set to <c>true</c> [is assets under management].</param>
+        /// <returns>
+        /// List of AdviserTotalAmount
+        /// </returns>
+        public List<AdviserTotalAmount> AdviserTotalAmountsGroupByStatus(bool isAssetsUnderManagement)
+        {
+            List<AdviserTotalAmount> result = null;
+
+            if (isAssetsUnderManagement)
+            {
+                result = DbSet.Aggregate<Adviser>()
+                         .Group(
+                                 x => x.IsActive,
+                                 group => new AdviserTotalAmount
+                                 {
+                                     IsActive = group.Key,
+                                     TotalAmount = group.Sum(y => y.TotalAssetsUnderManagement)
+                                 }
+                         ).ToList();
+            }
+            else
+            {
+                result = DbSet.Aggregate<Adviser>()
+                         .Group(
+                                 x => x.IsActive,
+                                 group => new AdviserTotalAmount
+                                 {
+                                     IsActive = group.Key,
+                                     TotalAmount = group.Sum(y => y.TotalFeesAndCharges)
+                                 }
+                         ).ToList();
+            }
+
+            if (result == null || !result.Any())
+            {
+                return null;
+            }
+
+            return result;
+        }
+
+        private void CreateIndex()
+        {
+            var indexOptions = new CreateIndexOptions();
+            var indexKeys = Builders<Adviser>.IndexKeys.Ascending(adviser => adviser.UserDetails.Name);
+            var indexModelName = new CreateIndexModel<Adviser>(indexKeys, indexOptions);
+            DbSet.Indexes.CreateOne(indexModelName);
         }
     }
 }

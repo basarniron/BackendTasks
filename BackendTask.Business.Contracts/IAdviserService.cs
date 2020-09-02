@@ -44,5 +44,23 @@ namespace BackendTask.Business.Contracts
         /// <param name="adviserId">The adviser identifier.</param>
         /// <returns></returns>
         public Task<ResponseMessage> RemoveAdviser(Guid adviserId);
+
+        /// <summary>
+        /// Populates the advisers.
+        /// </summary>
+        /// <returns></returns>
+        public Task<ResponseMessage> PopulateAdvisers();
+
+        /// <summary>
+        /// Gets the adviser total fees and charges.
+        /// </summary>
+        /// <returns></returns>
+        public List<AdviserTotalAmountMessage> GetAdviserTotalFeesAndCharges();
+
+        /// <summary>
+        /// Gets the adviser total assets under management.
+        /// </summary>
+        /// <returns></returns>
+        public List<AdviserTotalAmountMessage> GetAdviserTotalAssetsUnderManagement();
     }
 }
