@@ -153,6 +153,21 @@ namespace BackendTask.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("api/advisers/by-name/{name}")]
+        public async Task<IActionResult> GetAdviserByName(
+           [FromRoute] string name)
+        {
+            var response = await _adviserService.GetAdviserByName(name);
+
+            if (response == null)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
         #endregion
 
         #region Put

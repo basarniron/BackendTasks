@@ -25,6 +25,13 @@ namespace BackendTask.Business.Contracts
         public Task<List<AdviserMessageExtended>> GetAdvisers();
 
         /// <summary>
+        /// Gets the name of the adviser by.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public Task<List<AdviserMessageExtended>> GetAdviserByName(string name);
+
+        /// <summary>
         /// Creates the adviser.
         /// </summary>
         /// <param name="newAdviser">The new adviser.</param>

@@ -303,6 +303,43 @@ namespace BackendTask.Business.Services
         }
 
         /// <summary>
+        /// Gets the adviser by name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public async Task<List<AdviserMessageExtended>> GetAdviserByName(string name)
+        {
+            var result = await _adviserRepository.GetByName(name);
+
+            if (result == null || !result.Any())
+                return null;
+
+            return (from r in result
+                            select new AdviserMessageExtended
+                            {
+                                AdviserId = r.Id.ToString(),
+                                Name = r.UserDetails.Name,
+                                MiddleName = r.UserDetails.MiddleName,
+                                LastName = r.UserDetails.LastName,
+                                CompanyName = r.UserDetails.CompanyName,
+                                NationInsuranceNumber = r.UserDetails.NationInsuranceNumber,
+                                Dob = r.UserDetails.Dob.FormatDate(),
+                                Clients = r.Clients != null ? (from c in r.Clients
+                                                               select new ClientMessageExtended
+                                                               {
+                                                                   ClientId = c.Id.ToString(),
+                                                                   Name = c.UserDetails.Name,
+                                                                   MiddleName = c.UserDetails.MiddleName,
+                                                                   LastName = c.UserDetails.LastName,
+                                                                   Dob = c.UserDetails.Dob.FormatDate()
+                                                               }).ToList() : null,
+                                TotalAssetsUnderManagement = r.TotalAssetsUnderManagement,
+                                TotalFeesAndCharges = r.TotalFeesAndCharges,
+                                IsActive = r.IsActive
+                            })?.ToList();
+        }
+
+        /// <summary>
         /// Gets the advisers.
         /// </summary>
         /// <returns>ResponseAdviserMessage</returns>

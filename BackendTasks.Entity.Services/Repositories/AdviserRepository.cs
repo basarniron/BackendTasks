@@ -2,9 +2,11 @@
 using BackendTasks.Entity.Contracts.Repositories;
 using BackendTasks.Entity.Models;
 using BackendTasks.Entity.Services.Repository;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BackendTasks.Entity.Services.Repositories
 {
@@ -26,6 +28,21 @@ namespace BackendTasks.Entity.Services.Repositories
         }
 
         /// <summary>
+        /// Gets the name of the by.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>List of Advisers</returns>
+        public async Task<List<Adviser>> GetByName(string name)
+        {
+            ConfigDbSet();
+
+            var nameLower = name.ToLower();
+            var query = DbSet.Find(x =>   x.UserDetails.Name.ToLower().Contains(nameLower));
+            var result = await query.ToListAsync();
+            return result;
+        }
+
+        /// <summary>
         /// Advisers the total amounts group by status.
         /// </summary>
         /// <param name="isAssetsUnderManagement">if set to <c>true</c> [is assets under management].</param>
@@ -34,6 +51,7 @@ namespace BackendTasks.Entity.Services.Repositories
         /// </returns>
         public List<AdviserTotalAmount> AdviserTotalAmountsGroupByStatus(bool isAssetsUnderManagement)
         {
+            ConfigDbSet();
             List<AdviserTotalAmount> result = null;
 
             if (isAssetsUnderManagement)
