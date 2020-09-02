@@ -3,7 +3,6 @@ using BackendTask.Business.Contracts.Messages;
 using BackendTasks.Entity.Contracts;
 using BackendTasks.Entity.Contracts.Repositories;
 using BackendTasks.Entity.Models;
-using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BackendTask.Business.Contracts\BackendTask.Business.Contracts.csproj" />
     <ProjectReference Include="..\BackendTask.Business.Services\BackendTask.Business.Services.csproj" />
-    <ProjectReference Include="..\BackendTasks.Entity.Services\BackendTasks.Entity.Services.csproj" />
+    <ProjectReference Include="..\BackendTasks.Entity.Services\BackendTask.Entity.Services.csproj" />
   </ItemGroup>
 
 

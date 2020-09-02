@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BackendTask.Business.Contracts\BackendTask.Business.Contracts.csproj" />
-    <ProjectReference Include="..\BackendTasks.Entity.Contracts\BackendTasks.Entity.Contracts.csproj" />
+    <ProjectReference Include="..\BackendTasks.Entity.Contracts\BackendTask.Entity.Contracts.csproj" />
+    <ProjectReference Include="..\BackendTasks.Entity.Models\BackendTask.Entity.Models.csproj" />
   </ItemGroup>
 
 </Project>

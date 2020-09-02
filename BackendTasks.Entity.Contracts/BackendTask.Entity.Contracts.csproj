@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BackendTasks.Entity.Models\BackendTasks.Entity.Models.csproj" />
+    <ProjectReference Include="..\BackendTasks.Entity.Models\BackendTask.Entity.Models.csproj" />
   </ItemGroup>
 
 </Project>
