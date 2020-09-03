@@ -23,6 +23,8 @@ Solution contains;
  2.1. ** No CRUD operation will work if mongoDb runs on standalone as unity of work makes every saveChanges call inside Mongo context with a transaction.
  3. Change IP:port and database name from appSettings.json
  
+ TASK #1
+ 
  CRUD operations:
  1. Set BackendTask.API as start up project and run on local
  2. You should be landing on swagger/index.html 
@@ -41,7 +43,9 @@ Solution contains;
  Index:
  1. Index is set to Adviser.UserDetails.Name 
  2. /api/advisers/by-name/{name} get API can be used. A bit dodgy (working with 'test', 'name')
-  
+ 
+ TASK #2
+ 
  Binary Check:
  1. Set BackendTask.BinaryCheck as start up project and run on local
  2. Alternatively unit test project can be used - BackendTask.Business.Services.UnitTests
